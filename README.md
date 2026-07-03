@@ -1,21 +1,59 @@
-# Tifton Fitness Workout Dashboard v26 — Split Admin & Client Login
+# Tifton Fitness Workout Dashboard v27 — Staff + Universal Client Portal
 
-## Two deliberately separate entry points
+## Separate login paths
 
-- **Admin Workout Dashboard:** `/`
-  - Staff-only login.
-  - Username: `Admin1999`
-  - Password: `jaxroman`
-  - This is where the Workout Builder, Local Board, Client Accounts, and publishing controls live.
+### Staff Workout Dashboard — `/`
+The root URL is the staff workspace for the TV dashboard, Workout Builder, program calendar, Local Board, live publishing, and Team Access.
 
-- **Client Training Portal:** `/client`
-  - Separate PIN-only login.
-  - Clients receive only the assigned workout record returned by the server function.
-  - The client portal never includes the Local Board, Client Accounts editor, admin controls, or other client assignments.
+Initial staff login (configured through Netlify environment variables):
 
-## Netlify + GitHub deployment
+- Login ID: `Admin1999`
+- PIN: `jaxroman`
 
-Use this as a full replacement at the root of your GitHub repository's `main` branch. The root must contain:
+After the initial login, an Admin can open **Menu → Team Access** to add individual Admin, Manager, and Coach login IDs/PINs. PINs are hashed server-side before they are saved in Netlify Blobs.
+
+### Universal Client Training Portal — `/client`
+The client route is separate and view-only. For temporary testing, everyone uses one shared PIN:
+
+- Client portal PIN: `axon26`
+
+The client portal receives the latest *published* Workout Builder board with all weeks, workouts, circuits, reps, and coach notes. It auto-refreshes every 20 seconds.
+
+## Required Netlify environment variables
+
+Create these in **Netlify → Project configuration → Environment variables**. Scope them to **Functions** and **Production**, then redeploy.
+
+```text
+ADMIN_PUBLISH_SECRET=use-a-long-random-secret
+INITIAL_ADMIN_LOGIN_ID=Admin1999
+INITIAL_ADMIN_PIN=jaxroman
+INITIAL_ADMIN_NAME=Jordan Roman
+CLIENT_PORTAL_PIN=axon26
+```
+
+`ADMIN_PUBLISH_SECRET` authorizes live client-board publishing and Team Access changes. Do not reuse it as a staff or client PIN.
+
+## Publishing workflow
+
+1. Sign into `/` with the initial Admin login ID and PIN.
+2. Build, save, or import workouts in the Local Board.
+3. Open **Menu → Publish Client Workouts**.
+4. Enter `ADMIN_PUBLISH_SECRET` when prompted. The secret stays only for the current browser session.
+5. Visit `/client` and use `axon26` to verify the live board.
+
+Once the publish secret is stored for the session, routine Builder saves/imports queue a background live-sync attempt. Manual publish remains available as a confirmation step.
+
+## Staff roles
+
+- **Admin:** dashboard, Builder, publishing, and Team Access.
+- **Manager:** dashboard, Builder, and publishing.
+- **Coach:** dashboard and Builder. The live client publishing / Team Access controls are hidden.
+
+The server-side publish secret remains required for any live write to Netlify Blobs.
+
+## GitHub + Netlify deployment
+
+Use this package as a full replacement at the **root** of the `main` branch. Do not nest it inside a parent folder.
 
 ```text
 index.html
@@ -23,6 +61,7 @@ client.html
 netlify.toml
 _redirects
 package.json
+package-lock.json
 .npmrc
 netlify/
 scripts/
@@ -38,27 +77,8 @@ Publish directory: blank
 Functions directory: blank
 ```
 
-The included `netlify.toml` installs the `@netlify/blobs` dependency and bundles `netlify/functions/client-portal.js`.
+`netlify.toml` runs the build and bundles the Netlify Function. The included `package.json` installs `@netlify/blobs` so GitHub deploys can package the function.
 
-## Required Netlify environment variable
+## Local Board safety
 
-Create this server-side variable in Netlify under **Project configuration → Environment variables**:
-
-```text
-ADMIN_PUBLISH_SECRET=use-a-long-random-secret
-```
-
-Scope it to **Functions** and **Production**, then redeploy.
-
-## Publishing workflow
-
-1. Sign in to the admin dashboard at `/`.
-2. Build, import, or update workouts in **Local Board**.
-3. Use **Client Accounts** to choose each client's PIN, assigned week, and assigned workout.
-4. Choose **Save & Publish**, or use **Publish Client Workouts** from Menu.
-5. Enter the `ADMIN_PUBLISH_SECRET` when prompted. It is retained only for the active admin browser session.
-6. Clients sign in at `/client` with their personal PIN. Their portal polls the live record every 20 seconds.
-
-## Existing admin workouts
-
-The Builder remains browser-local on the same site/device, using the existing Local Board record. Before a major deployment update, export a TXT Backup. Deploying this code update does not intentionally overwrite your Local Board.
+The Workout Builder preserves the current browser’s Local Board under the same storage key as the prior dashboard builds. This upgrade does not intentionally overwrite it. Export a TXT backup before a major code replacement as a recovery copy.

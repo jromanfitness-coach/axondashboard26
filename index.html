@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TF Workout Dashboard v26</title>
+<title>TF Workout Dashboard v27</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
   :root{
@@ -582,20 +582,39 @@ h1{letter-spacing:-.055em}
 /* v23 client account manager */
 .client-account-modal{position:fixed;inset:0;z-index:170;display:none;align-items:center;justify-content:center;background:rgba(2,4,10,.76);backdrop-filter:blur(10px);padding:22px}.client-account-modal.open{display:flex}.client-account-card{width:min(900px,94vw);max-height:90vh;overflow:auto;border:1px solid rgba(255,255,255,.16);border-radius:28px;padding:22px;background:linear-gradient(145deg,rgba(13,18,26,.99),rgba(5,7,10,.99));box-shadow:0 30px 110px rgba(0,0,0,.78)}.client-account-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}.client-account-title{font-size:clamp(26px,3vw,44px);font-weight:950;line-height:.96;text-transform:uppercase;letter-spacing:-.04em}.client-account-sub{margin-top:6px;color:var(--muted);font-size:14px;line-height:1.35}.client-account-grid{display:grid;gap:11px}.client-account-row{display:grid;grid-template-columns:1.1fr .9fr 1fr 1fr auto;gap:9px;align-items:end;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:12px;background:rgba(255,255,255,.035)}.client-account-row label{display:grid;gap:5px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.1em;font-weight:900}.client-account-row input,.client-account-row select{width:100%;min-width:0;border:1px solid rgba(255,255,255,.14);background:#08101a;color:var(--cream);border-radius:11px;padding:10px;outline:none}.client-account-row input:focus,.client-account-row select:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(31,140,255,.14)}.client-account-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}.client-account-note{font-size:12px;color:var(--muted);line-height:1.35}.client-account-status{font-size:13px;font-weight:900;color:var(--green)}@media(max-width:760px){.client-account-row{grid-template-columns:1fr 1fr}.client-account-row .client-delete{grid-column:span 2}.client-account-card{padding:16px}}
 
+
+
+/* v27 — separate staff access + universal client portal */
+#loginGate.staff-gate{padding:28px;background:radial-gradient(circle at 12% 12%,rgba(31,140,255,.34),transparent 35%),radial-gradient(circle at 88% 82%,rgba(100,180,255,.12),transparent 38%),linear-gradient(135deg,#05070a 0%,#08111e 58%,#05070a 100%)}
+.staff-login-card{width:min(760px,94vw)!important;padding:0!important;overflow:hidden!important;background:linear-gradient(135deg,rgba(13,18,26,.98),rgba(6,10,16,.98))!important;border:1px solid rgba(100,180,255,.46)!important;box-shadow:0 34px 110px rgba(0,0,0,.78),0 0 54px rgba(31,140,255,.14)!important}
+.staff-login-card:before{display:none!important}.staff-login-grid{display:grid;grid-template-columns:1.15fr .85fr;min-height:390px}.staff-login-copy{padding:38px;border-right:1px solid rgba(255,255,255,.1);background:linear-gradient(145deg,rgba(31,140,255,.14),rgba(7,13,21,.2) 65%)}.staff-login-form{padding:34px;display:grid;align-content:center;gap:10px}.staff-login-copy h2{margin:9px 0 12px;font-size:clamp(32px,4vw,54px);line-height:.92;letter-spacing:-.06em;text-transform:uppercase}.staff-login-copy p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}.staff-access-roles{display:flex;gap:7px;flex-wrap:wrap;margin-top:24px}.staff-access-roles span{border:1px solid rgba(100,180,255,.28);background:rgba(31,140,255,.10);border-radius:999px;padding:7px 10px;color:var(--blue2);font-size:11px;font-weight:950;letter-spacing:.1em;text-transform:uppercase}.staff-login-form label{display:grid;gap:6px;color:var(--muted);font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.11em}.staff-login-form input{margin:0!important;padding:13px!important}.staff-login-note{margin-top:4px;color:var(--muted);font-size:12px;line-height:1.42}.staff-client-link{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:14px;margin-top:4px;border-top:1px solid rgba(255,255,255,.1);color:var(--blue2);font-size:12px;font-weight:900;text-decoration:none;text-transform:uppercase;letter-spacing:.08em}.staff-client-link:hover{color:var(--cream)}.staff-login-submit{min-height:48px!important;border-radius:14px!important}
+.team-access-modal{position:fixed;inset:0;z-index:175;display:none;align-items:center;justify-content:center;background:rgba(2,4,10,.78);backdrop-filter:blur(10px);padding:24px}.team-access-modal.open{display:flex}.team-access-card{width:min(1480px,96vw);max-height:93vh;overflow:auto;border:1px solid rgba(100,180,255,.52);border-radius:30px;padding:26px;background:linear-gradient(155deg,rgba(13,18,26,.995),rgba(5,9,15,.995));box-shadow:0 34px 115px rgba(0,0,0,.82),0 0 56px rgba(31,140,255,.16)}.team-access-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}.team-access-kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue2);font-weight:950}.team-access-title{font-size:clamp(29px,3vw,48px);font-weight:900;letter-spacing:-.06em;line-height:.95;margin:7px 0 0}.team-access-sub{margin:9px 0 0;color:var(--muted);font-size:14px;line-height:1.45;max-width:800px}.team-directory{margin-top:22px;border:1px solid rgba(100,180,255,.52);border-radius:24px;padding:20px;background:linear-gradient(135deg,rgba(31,140,255,.13),rgba(10,18,28,.50) 58%,rgba(31,140,255,.06));display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}.team-directory h3{font-size:22px;margin:0;letter-spacing:-.03em}.team-directory p{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.4}.team-summary{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}.team-stat{min-width:100px;border:1px solid rgba(255,255,255,.12);border-radius:17px;background:rgba(5,9,15,.64);padding:12px;text-align:center}.team-stat strong{display:block;font-size:25px;line-height:1;color:var(--cream)}.team-stat span{display:block;margin-top:5px;color:var(--muted);font-size:10px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}.team-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0;flex-wrap:wrap}.team-search{flex:1;min-width:260px;border:1px solid rgba(255,255,255,.14);background:rgba(3,7,12,.82);color:var(--cream);border-radius:15px;padding:15px;font-size:16px;outline:none}.team-search:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(31,140,255,.14)}.team-toolbar-actions{display:flex;gap:9px;flex-wrap:wrap}.team-add{border:1px solid rgba(100,180,255,.62);background:linear-gradient(135deg,var(--blue),#145ec0);color:white;border-radius:14px;padding:13px 15px;font-weight:950;box-shadow:0 0 30px rgba(31,140,255,.20)}.team-outline{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:var(--cream);border-radius:14px;padding:13px 15px;font-weight:900}.team-outline:hover,.team-add:hover{transform:translateY(-1px)}.team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.staff-card{position:relative;overflow:hidden;min-height:286px;border:1px solid rgba(255,255,255,.14);border-radius:21px;padding:18px;background:linear-gradient(160deg,rgba(16,30,48,.94),rgba(8,13,20,.96));box-shadow:0 16px 38px rgba(0,0,0,.28);transition:.16s ease}.staff-card:hover{transform:translateY(-2px);border-color:rgba(100,180,255,.52);box-shadow:0 22px 46px rgba(31,140,255,.13)}.staff-card:before{content:"";position:absolute;left:0;top:20px;bottom:20px;width:4px;border-radius:0 4px 4px 0;background:var(--blue);box-shadow:0 0 18px var(--blue)}.staff-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-left:5px}.staff-avatar{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;border:1px solid rgba(100,180,255,.48);background:rgba(31,140,255,.13);color:var(--cream);font-size:16px;font-weight:950}.staff-role{display:inline-flex;border:1px solid rgba(100,180,255,.32);background:rgba(31,140,255,.12);color:var(--blue2);border-radius:999px;padding:6px 8px;font-size:10px;font-weight:950;letter-spacing:.09em;text-transform:uppercase}.staff-card h4{margin:16px 0 3px 5px;font-size:20px;letter-spacing:-.04em}.staff-id{margin-left:5px;color:var(--blue2);font-size:12px;font-weight:900}.staff-card-fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}.staff-card-fields label{display:grid;gap:5px;color:var(--muted);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em}.staff-card-fields input,.staff-card-fields select{width:100%;min-width:0;border:1px solid rgba(255,255,255,.14);border-radius:11px;background:rgba(4,8,13,.76);color:var(--cream);padding:10px;outline:none}.staff-card-fields input:focus,.staff-card-fields select:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(31,140,255,.13)}.staff-card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 0 0 5px}.staff-active{color:var(--green);font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.08em}.staff-inactive{color:var(--yellow);font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.08em}.staff-delete{border:1px solid rgba(255,107,107,.40);background:rgba(255,107,107,.1);color:var(--red);border-radius:10px;padding:8px 10px;font-size:11px;font-weight:950}.team-access-status{min-height:18px;margin-top:14px;color:var(--green);font-size:13px;font-weight:900}.staff-admin-only[hidden],.staff-publish-only[hidden]{display:none!important}
+@media(max-width:920px){.staff-login-grid{grid-template-columns:1fr}.staff-login-copy{border-right:0;border-bottom:1px solid rgba(255,255,255,.1)}.team-directory{grid-template-columns:1fr}.team-summary{justify-content:flex-start}.team-grid{grid-template-columns:1fr 1fr}}@media(max-width:640px){.staff-login-copy,.staff-login-form{padding:24px}.team-access-card{padding:16px}.team-grid{grid-template-columns:1fr}.staff-card-fields{grid-template-columns:1fr}.team-directory{padding:16px}.team-stat{min-width:84px}}
+
 </style>
 </head>
 <body class="fullscreen-clean one-workout">
-<div class="login-gate" id="loginGate">
-  <form class="login-card" onsubmit="login(event)">
-    <div class="login-mark">TF</div>
-    <div class="login-kicker">Tifton Fitness</div>
-    <div class="login-title">Workout Command Center</div>
-    <div class="login-sub">Staff-only access for the live workout display, Local Board, client accounts, and publishing controls.</div>
-    <input id="loginUser" autocomplete="username" placeholder="Username" />
-    <input id="loginPass" autocomplete="current-password" type="password" placeholder="Password" />
-    <button type="submit" class="menu-toggle" style="width:100%;margin-top:10px;">Login</button>
-    <div class="login-error" id="loginError"></div>
-    <a class="login-client-link" href="/client">Client training login <span>→</span></a>
+<div class="login-gate staff-gate" id="loginGate">
+  <form class="login-card staff-login-card" onsubmit="login(event)">
+    <div class="staff-login-grid">
+      <section class="staff-login-copy">
+        <div class="login-mark">TF</div>
+        <div class="login-kicker">Tifton Fitness</div>
+        <h2>Workout<br>Command Center</h2>
+        <p>Private staff access for the live display, Workout Builder, training calendar, client publishing, and team administration.</p>
+        <div class="staff-access-roles"><span>Admin</span><span>Manager</span><span>Coach</span></div>
+      </section>
+      <section class="staff-login-form">
+        <div class="login-kicker" style="margin-top:0">Staff Access</div>
+        <div class="login-title">Sign In</div>
+        <label>Staff login ID<input id="loginUser" autocomplete="username" placeholder="Example: Admin1999" /></label>
+        <label>Personal PIN<input id="loginPass" autocomplete="current-password" type="password" inputmode="text" placeholder="Enter your staff PIN" /></label>
+        <button type="submit" class="menu-toggle staff-login-submit">Open Dashboard</button>
+        <div class="login-error" id="loginError"></div>
+        <div class="staff-login-note">Each coach, manager, and admin can have an individual login ID and PIN. Admins manage access from the Team Access screen.</div>
+        <a class="staff-client-link" href="/client">Client training portal <span>→</span></a>
+      </section>
+    </div>
   </form>
 </div>
 
@@ -635,9 +654,9 @@ h1{letter-spacing:-.055em}
           <button type="button" onclick="changeTileZoom(10)">Tile Zoom +</button>
           <button type="button" onclick="resetTileZoom()">Tile Zoom: <span id="tileZoomStatus">100%</span></button>
           <button type="button" onclick="openAdmin()">Local Board</button>
-          <button type="button" onclick="openClientAccounts()">Client Accounts</button>
+          <button type="button" class="staff-admin-only" onclick="openTeamAccess()">Team Access</button>
           <button type="button" onclick="openClientPortal()">Open Client Portal ↗</button>
-          <button type="button" onclick="publishClientWorkouts()">Publish Client Workouts</button>
+          <button type="button" class="staff-publish-only" onclick="publishClientWorkouts()">Publish Client Workouts</button>
           <button type="button" onclick="requestBoardImport()">Import TXT File</button>
           <button type="button" onclick="restorePreviousBoard()">Restore Previous Save</button>
           <button type="button" onclick="openExportModal()">Export Data</button>
@@ -1009,19 +1028,22 @@ h1{letter-spacing:-.055em}
 
 <input id="boardImportFile" type="file" accept=".txt,text/plain" hidden onchange="uploadFile(event)" />
 
+
+<div class="team-access-modal" id="teamAccessModal" aria-hidden="true"><div class="team-access-card"><div class="team-access-head"><div><div class="team-access-kicker">Staff workspace</div><div class="team-access-title">Team Access</div><div class="team-access-sub">Create individual staff login IDs and PINs for admins, managers, and coaches. These credentials are stored as server-side hashes in Netlify Blobs; client portal access stays completely separate.</div></div><button type="button" class="modal-close" onclick="closeTeamAccess()">Close</button></div><section class="team-directory"><div><h3>Staff directory</h3><p>Manage who can enter the Workout Dashboard. Admins manage access; Managers can publish; Coaches can build and run programming.</p></div><div class="team-summary"><div class="team-stat"><strong id="teamCountTotal">0</strong><span>Staff</span></div><div class="team-stat"><strong id="teamCountAdmins">0</strong><span>Admins</span></div><div class="team-stat"><strong id="teamCountSupport">0</strong><span>Managers + Coaches</span></div></div></section><div class="team-toolbar"><input id="teamSearch" class="team-search" placeholder="Search staff name, role, or login ID" oninput="filterTeamAccounts()"><div class="team-toolbar-actions"><button type="button" class="team-outline" onclick="openClientPortal()">Open Client Portal ↗</button><button type="button" class="team-add" onclick="addTeamAccount()">+ Staff</button></div></div><div class="team-grid" id="teamAccessRows"></div><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px"><div class="team-access-status" id="teamAccessStatus"></div><button type="button" class="team-add" onclick="saveTeamAccess()">Save Team Access</button></div></div></div>
+
 <script>
 "use strict";
 
 /*
-  TF Workout Dashboard v26
+  TF Workout Dashboard v27
 
-  Security note:
-  This is a temporary client-side login gate, not production-grade authentication.
-  For production, protect /dashboard and /admin routes with server-side auth or Netlify access controls.
+  Staff login is verified through the Netlify Function. The server-side
+  ADMIN_PUBLISH_SECRET continues to protect publishing and Team Access updates.
 */
 
-var AUTH_USER = "Admin1999";
-var AUTH_PASS = "jaxroman";
+var STAFF_SESSION_KEY = "tfDashboardStaffSessionV2";
+var TEAM_ACCOUNTS_KEY = "tfDashboardTeamAccountsV2";
+var currentStaff = null;
 
 var SAMPLE_TEXT = `brand: Tifton Fitness Training Display
 heading: Weekly Class Board
@@ -1186,24 +1208,44 @@ var lastAutoChange = Date.now();
 var attendanceDraft = {count:0, clientNotes:"", adminNotes:""};
 var reviewDraft = {intensity:0, pacing:0, support:0};
 
-var ids = ["loginGate","loginUser","loginPass","loginError","screen","menu","weekSelect","classSelect","classList","stationGrid","weekTitle","brandKicker","mainHeading","programTitle","programDesc","timerStatus","autoStatus","oneWorkoutStatus","syncStatus","tileZoomStatus","footerLeft","footerCenter","footerRight","clock","date","hourTimerCard","hourTimer","hourTimerProgress","admin","editor","editorStatus","modeValue","classMode","modeSub","weeklyOverlay","weekChips","overviewTop","overviewMid","overviewStatus","weeklyMusclePanel","calendarOverlay","calendarTitle","calendarContent","calendarWeekMode","calendarMonthMode","calendarEditorOverlay","calendarEditorTitle","calendarEditorSub","calendarEditDate","calendarEditProgram","calendarEditTime","calendarEditNote","calendarTypeToggle","calendarDeleteBtn","calendarEditorStatus","modeEditorOverlay","modeEditorSub","modeChoiceToggle","modeEditWork","modeEditRest","modeEditorFields","modeEditorStatus","attendanceModal","attendanceContext","attendanceCount","clientNotes","adminNotes","reviewModal","reviewContext","reviewName","intensityStars","pacingStars","supportStars","intensityScore","pacingScore","supportScore","reviewNotes","exportModal","multiStatus","boardImportFile","builderEditor","textEditorWrap","builderEditorTab","txtEditorTab","builderWeekChips","builderClassChips","builderWeekName","builderWeekSummary","builderClassName","builderMode","builderRounds","builderWork","builderRest","builderDesc","builderCircuits","builderSaveMeta","builderSelectionMeta","clientAccountModal","clientAccountRows","clientAccountStatus"];
+var ids = ["loginGate","loginUser","loginPass","loginError","screen","menu","weekSelect","classSelect","classList","stationGrid","weekTitle","brandKicker","mainHeading","programTitle","programDesc","timerStatus","autoStatus","oneWorkoutStatus","syncStatus","tileZoomStatus","footerLeft","footerCenter","footerRight","clock","date","hourTimerCard","hourTimer","hourTimerProgress","admin","editor","editorStatus","modeValue","classMode","modeSub","weeklyOverlay","weekChips","overviewTop","overviewMid","overviewStatus","weeklyMusclePanel","calendarOverlay","calendarTitle","calendarContent","calendarWeekMode","calendarMonthMode","calendarEditorOverlay","calendarEditorTitle","calendarEditorSub","calendarEditDate","calendarEditProgram","calendarEditTime","calendarEditNote","calendarTypeToggle","calendarDeleteBtn","calendarEditorStatus","modeEditorOverlay","modeEditorSub","modeChoiceToggle","modeEditWork","modeEditRest","modeEditorFields","modeEditorStatus","attendanceModal","attendanceContext","attendanceCount","clientNotes","adminNotes","reviewModal","reviewContext","reviewName","intensityStars","pacingStars","supportStars","intensityScore","pacingScore","supportScore","reviewNotes","exportModal","multiStatus","boardImportFile","builderEditor","textEditorWrap","builderEditorTab","txtEditorTab","builderWeekChips","builderClassChips","builderWeekName","builderWeekSummary","builderClassName","builderMode","builderRounds","builderWork","builderRest","builderDesc","builderCircuits","builderSaveMeta","builderSelectionMeta","teamAccessModal","teamAccessRows","teamAccessStatus","teamSearch"];
 var el = {};
 ids.forEach(function(id){ el[id] = document.getElementById(id); });
 
-function login(e){
+function escapeHtml(value){return String(value==null?"":value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
+function escapeAttr(value){return escapeHtml(value);}
+function initials(name){return String(name||"Staff").split(/\s+/).filter(Boolean).slice(0,2).map(function(x){return x.charAt(0).toUpperCase();}).join("")||"TF";}
+function storeStaffSession(profile){
+  currentStaff={id:profile.id||"",name:profile.name||"Staff",loginId:profile.loginId||"",role:profile.role||"Coach",active:profile.active!==false};
+  try{sessionStorage.setItem(STAFF_SESSION_KEY,JSON.stringify(currentStaff));}catch(err){}
+}
+function applyStaffAccess(){
+  var role=(currentStaff&&currentStaff.role)||"Coach";
+  document.body.setAttribute("data-staff-role",role.toLowerCase());
+  document.querySelectorAll(".staff-admin-only").forEach(function(node){node.hidden=role!=="Admin";});
+  document.querySelectorAll(".staff-publish-only").forEach(function(node){node.hidden=(role!=="Admin"&&role!=="Manager");});
+  if(el.brandKicker&&currentStaff){el.brandKicker.textContent="Tifton Fitness • "+currentStaff.role+" • "+currentStaff.name;}
+}
+async function login(e){
   e.preventDefault();
-  if(el.loginUser.value === AUTH_USER && el.loginPass.value === AUTH_PASS){
-    sessionStorage.setItem("tfDashboardAuthed","yes");
+  var loginId=(el.loginUser.value||"").trim(), pin=(el.loginPass.value||"").trim();
+  if(!loginId||!pin){el.loginError.textContent="Enter your staff login ID and PIN.";return;}
+  el.loginError.textContent="Checking staff access…";
+  try{
+    var response=await fetch("/.netlify/functions/client-portal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"staff-login",loginId:loginId,pin:pin})});
+    var result=await response.json();
+    if(!response.ok||!result.ok)throw new Error(result.error||"Staff login was not accepted.");
+    storeStaffSession(result.profile);
+    if(Array.isArray(result.staffAccounts))setTeamAccounts(result.staffAccounts);
     el.loginGate.style.display="none";
-  }else{
-    el.loginError.textContent="Invalid login.";
-  }
+    applyStaffAccess();
+  }catch(err){el.loginError.textContent=err&&err.message?err.message:"Staff login is temporarily unavailable.";}
 }
 function logout(){
-  sessionStorage.removeItem("tfDashboardAuthed");
+  try{sessionStorage.removeItem(STAFF_SESSION_KEY);}catch(err){}
   location.reload();
 }
-if(sessionStorage.getItem("tfDashboardAuthed")==="yes"){ el.loginGate.style.display="none"; }
+try{var savedStaff=JSON.parse(sessionStorage.getItem(STAFF_SESSION_KEY)||"null");if(savedStaff&&savedStaff.name){currentStaff=savedStaff;el.loginGate.style.display="none";setTimeout(applyStaffAccess,0);}}catch(err){}
 
 function readJSON(key, fallback){
   try { return JSON.parse(localStorage.getItem(key) || "null") || fallback; } catch(e) { return fallback; }
@@ -2260,87 +2302,85 @@ function saveBuilderBoard(silent){
 
 
 
-var CLIENT_ASSIGNMENTS_KEY="tf_client_workout_assignments_v1";
-function defaultClientAssignments(){return [{pin:"JRoman01",name:"Jordan Roman",weekIndex:activeWeekIndex||0,programIndex:activeClassIndex||0,label:"Current Assigned Workout"}];}
-function getClientAssignments(){
-  try{var raw=localStorage.getItem(CLIENT_ASSIGNMENTS_KEY);var list=raw?JSON.parse(raw):null;return Array.isArray(list)&&list.length?list:defaultClientAssignments();}
-  catch(err){return defaultClientAssignments();}
+function defaultTeamAccounts(){return [{id:"initial-admin",name:"Jordan Roman",loginId:"Admin1999",role:"Admin",active:true,pin:""}];}
+function getTeamAccounts(){
+  try{var raw=localStorage.getItem(TEAM_ACCOUNTS_KEY);var list=raw?JSON.parse(raw):null;return Array.isArray(list)&&list.length?list:defaultTeamAccounts();}
+  catch(err){return defaultTeamAccounts();}
 }
-function setClientAssignments(list){
-  try{localStorage.setItem(CLIENT_ASSIGNMENTS_KEY,JSON.stringify(list));}catch(err){}
+function setTeamAccounts(list){try{localStorage.setItem(TEAM_ACCOUNTS_KEY,JSON.stringify(list||[]));}catch(err){}}
+function roleCounts(list){var counts={Admin:0,Manager:0,Coach:0};(list||[]).forEach(function(a){if(a.active!==false&&counts[a.role]!==undefined)counts[a.role]++;});return counts;}
+function teamAccountCard(account,index){
+  var active=account.active!==false, role=account.role||"Coach", displayName=account.name||"New Staff";
+  return '<article class="staff-card" data-team-row="'+index+'">'+
+    '<div class="staff-card-head"><div class="staff-avatar">'+escapeHtml(initials(displayName))+'</div><span class="staff-role">'+escapeHtml(role)+'</span></div>'+
+    '<h4>'+escapeHtml(displayName)+'</h4><div class="staff-id">'+escapeHtml(account.loginId||"Login ID required")+'</div>'+
+    '<div class="staff-card-fields">'+
+      '<label>Name<input data-team-name value="'+escapeAttr(account.name||"")+'" placeholder="Full name"></label>'+
+      '<label>Role<select data-team-role><option '+(role==="Admin"?"selected":"")+'>Admin</option><option '+(role==="Manager"?"selected":"")+'>Manager</option><option '+(role==="Coach"?"selected":"")+'>Coach</option></select></label>'+
+      '<label>Login ID<input data-team-login-id value="'+escapeAttr(account.loginId||"")+'" placeholder="Example: CoachAmy"></label>'+
+      '<label>PIN<input data-team-pin type="password" autocomplete="new-password" placeholder="'+(account.id?"Leave blank to retain":"Create staff PIN")+'"></label>'+
+    '</div>'+
+    '<div class="staff-card-footer"><label style="display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em"><input type="checkbox" data-team-active '+(active?"checked":"")+'> <span class="'+(active?"staff-active":"staff-inactive")+'">'+(active?"Active":"Paused")+'</span></label><button type="button" class="staff-delete" onclick="removeTeamAccount('+index+')">Remove</button></div>'+
+  '</article>';
 }
-function clientAccountOptions(selectedWeek,selectedProgram){
-  var weeks=(data&&data.weeks)||[];var weekOptions=weeks.map(function(w,i){return '<option value="'+i+'" '+(i===Number(selectedWeek)?'selected':'')+'>'+escapeHtml(w.week||('Week '+(i+1)))+'</option>';}).join('');
-  var week=weeks[Number(selectedWeek)]||weeks[0]||{programs:[]};var programOptions=(week.programs||[]).map(function(p,i){return '<option value="'+i+'" '+(i===Number(selectedProgram)?'selected':'')+'>'+escapeHtml(p.name||('Workout '+(i+1)))+'</option>';}).join('');
-  return {weeks:weekOptions,programs:programOptions};
+function renderTeamAccess(){
+  var rows=el.teamAccessRows;if(!rows)return;var list=getTeamAccounts();var q=(el.teamSearch&&el.teamSearch.value||"").toLowerCase().trim();
+  var filtered=list.filter(function(a){return !q||[a.name,a.loginId,a.role].join(" ").toLowerCase().indexOf(q)>-1;});
+  var c=roleCounts(list);rows.innerHTML=filtered.length?filtered.map(function(a){return teamAccountCard(a,list.indexOf(a));}).join(""):'<div class="empty">No staff accounts match this search.</div>';
+  var total=document.getElementById("teamCountTotal"), admins=document.getElementById("teamCountAdmins"), support=document.getElementById("teamCountSupport");
+  if(total)total.textContent=String(list.length);if(admins)admins.textContent=String(c.Admin);if(support)support.textContent=String(c.Manager+c.Coach);
+  if(el.teamAccessStatus)el.teamAccessStatus.textContent=list.length+" staff account"+(list.length===1?"":"s")+" saved locally. Save Team Access to update all staff devices.";
 }
-function renderClientAccounts(){
-  var rows=el.clientAccountRows;if(!rows)return;var list=getClientAssignments();
-  rows.innerHTML=list.map(function(a,index){var opts=clientAccountOptions(a.weekIndex,a.programIndex);return '<div class="client-account-row" data-client-row="'+index+'">'+
-    '<label>Client name<input data-client-name value="'+escapeAttr(a.name||'')+'" placeholder="Client name"></label>'+ 
-    '<label>Login PIN<input data-client-pin value="'+escapeAttr(a.pin||'')+'" placeholder="Example: JRoman01"></label>'+ 
-    '<label>Assigned week<select data-client-week onchange="changeClientAccountWeek('+index+',this.value)">'+opts.weeks+'</select></label>'+ 
-    '<label>Assigned workout<select data-client-program>'+opts.programs+'</select></label>'+ 
-    '<button type="button" class="mini-danger client-delete" onclick="removeClientAccount('+index+')">Remove</button></div>';}).join('');
-  el.clientAccountStatus.textContent=list.length+' client account'+(list.length===1?'':'s')+' ready. Save changes, then publish when you want clients to see them.';
+function openTeamAccess(){
+  closeMenu();
+  if(!currentStaff||currentStaff.role!=="Admin"){alert("Team Access is available to Admin staff only.");return;}
+  el.teamAccessModal.classList.add("open");el.teamAccessModal.setAttribute("aria-hidden","false");renderTeamAccess();
 }
-function openClientAccounts(){closeMenu();el.clientAccountModal.classList.add('open');el.clientAccountModal.setAttribute('aria-hidden','false');renderClientAccounts();}
-function closeClientAccounts(){el.clientAccountModal.classList.remove('open');el.clientAccountModal.setAttribute('aria-hidden','true');}
-function changeClientAccountWeek(index,value){
-  var list=collectClientAccounts(false);if(!list[index])return;list[index].weekIndex=Number(value)||0;list[index].programIndex=0;setClientAssignments(list);renderClientAccounts();
-}
-function collectClientAccounts(validate){
-  var list=[];document.querySelectorAll('[data-client-row]').forEach(function(row){
-    var name=(row.querySelector('[data-client-name]').value||'').trim();var pin=(row.querySelector('[data-client-pin]').value||'').trim();var weekIndex=Number(row.querySelector('[data-client-week]').value)||0;var programIndex=Number(row.querySelector('[data-client-program]').value)||0;
-    if(!name&&!pin)return;
-    if(validate&&(!name||!pin))throw new Error('Each client needs both a name and a login PIN.');
-    list.push({name:name||'Client',pin:pin,weekIndex:weekIndex,programIndex:programIndex,label:'Assigned Workout'});
+function closeTeamAccess(){el.teamAccessModal.classList.remove("open");el.teamAccessModal.setAttribute("aria-hidden","true");}
+function collectTeamAccounts(validate){
+  var list=getTeamAccounts().map(function(item){return {id:item.id||"",name:item.name||"",loginId:item.loginId||"",role:item.role||"Coach",active:item.active!==false,pin:""};});
+  document.querySelectorAll("[data-team-row]").forEach(function(row){
+    var index=Number(row.getAttribute("data-team-row"));var old=list[index]||{};
+    var name=(row.querySelector("[data-team-name]").value||"").trim(), loginId=(row.querySelector("[data-team-login-id]").value||"").trim(), role=row.querySelector("[data-team-role]").value||"Coach", pin=(row.querySelector("[data-team-pin]").value||"").trim(), active=!!row.querySelector("[data-team-active]").checked;
+    list[index]={id:old.id||"",name:name,loginId:loginId,role:role,active:active,pin:pin};
   });
-  if(validate){var seen={};list.forEach(function(x){if(seen[x.pin])throw new Error('Each client PIN must be unique.');seen[x.pin]=true;});}
+  list=list.filter(function(a){return a.name||a.loginId||a.pin;});
+  if(validate){list.forEach(function(a){if(!a.name||!a.loginId)throw new Error("Every staff account needs a name and login ID.");});var ids={};list.forEach(function(a){var k=a.loginId.toLowerCase();if(ids[k])throw new Error("Each staff login ID must be unique.");ids[k]=true;});if(!list.some(function(a){return a.role==="Admin"&&a.active;}))throw new Error("Keep at least one active Admin account.");}
   return list;
 }
-function addClientAccount(){
-  var list=collectClientAccounts(false);list.push({name:'New Client',pin:'',weekIndex:0,programIndex:0,label:'Assigned Workout'});setClientAssignments(list);renderClientAccounts();
-}
-function removeClientAccount(index){var list=collectClientAccounts(false);list.splice(index,1);setClientAssignments(list);renderClientAccounts();}
-async function saveClientAccounts(alsoPublish){
-  try{var list=collectClientAccounts(true);if(!list.length)throw new Error('Add at least one client account.');setClientAssignments(list);el.clientAccountStatus.textContent='Client accounts saved locally.';if(alsoPublish){await publishClientWorkouts(true);el.clientAccountStatus.textContent='Client accounts and the current workout board are published.';}renderClientAccounts();}
-  catch(err){el.clientAccountStatus.textContent=err.message||'Could not save client accounts.';}
-}
-
-function openClientPortal(){
-  window.open("/client", "_blank", "noopener");
-}
+function addTeamAccount(){var list=collectTeamAccounts(false);list.push({id:"",name:"New Staff",loginId:"",role:"Coach",active:true,pin:""});setTeamAccounts(list);renderTeamAccess();}
+function removeTeamAccount(index){var list=collectTeamAccounts(false);list.splice(index,1);setTeamAccounts(list);renderTeamAccess();}
+function filterTeamAccounts(){renderTeamAccess();}
+function openClientPortal(){window.open("/client", "_blank", "noopener");}
 var CLIENT_PUBLISH_SECRET_KEY="tf_client_publish_secret_v1";
 function getClientPublishSecret(){try{return sessionStorage.getItem(CLIENT_PUBLISH_SECRET_KEY)||"";}catch(err){return "";}}
 function setClientPublishSecret(value){try{sessionStorage.setItem(CLIENT_PUBLISH_SECRET_KEY,value||"");}catch(err){}}
 function requestClientPublishSecret(){
   var existing=getClientPublishSecret();
-  var value=window.prompt("Enter the Netlify ADMIN_PUBLISH_SECRET to publish live client workouts.",existing);
-  if(value===null)return "";
-  value=value.trim();
-  if(value)setClientPublishSecret(value);
-  return value;
+  var value=window.prompt("Enter the Netlify ADMIN_PUBLISH_SECRET to securely publish the live client workout board.",existing);
+  if(value===null)return "";value=value.trim();if(value)setClientPublishSecret(value);return value;
 }
 async function publishClientWorkouts(silent){
-  if(!silent) closeMenu();
+  if(!silent)closeMenu();
   try{
-    var secret=getClientPublishSecret();
-    if(!secret) secret=requestClientPublishSecret();
-    if(!secret) throw new Error("Live publishing needs the Netlify publish key.");
-    var payload={action:"publish",board:data,publishedAt:new Date().toISOString(),assignments:getClientAssignments()};
-    var response=await fetch("/.netlify/functions/client-portal",{method:"POST",headers:{"Content-Type":"application/json","X-Admin-Publish-Secret":secret},body:JSON.stringify(payload)});
-    var result=await response.json();
-    if(!response.ok || !result.ok) throw new Error(result.error||"Publish did not complete.");
-    setLocalBoardStatus("Client portal live • "+(result.clientCount||0)+" client account"+((result.clientCount||0)===1?"":"s")+" synced","sync-good");
-    if(!silent) alert("Client workouts are live and will refresh automatically on client devices.");
-    return true;
-  }catch(err){
-    var message=err&&err.message?err.message:"Client publishing unavailable.";
-    setLocalBoardStatus("Client sync paused — "+message,"sync-warn");
-    if(!silent) alert(message);
-    return false;
-  }
+    if(currentStaff&&currentStaff.role==="Coach")throw new Error("Coaches can build workouts, but a Manager or Admin publishes the live client board.");
+    var secret=getClientPublishSecret();if(!secret)secret=requestClientPublishSecret();if(!secret)throw new Error("Live publishing needs the Netlify publish secret.");
+    var response=await fetch("/.netlify/functions/client-portal",{method:"POST",headers:{"Content-Type":"application/json","X-Admin-Publish-Secret":secret},body:JSON.stringify({action:"publish",board:data,publishedAt:new Date().toISOString()})});
+    var result=await response.json();if(!response.ok||!result.ok)throw new Error(result.error||"Publish did not complete.");
+    setLocalBoardStatus("Client portal live • "+(result.weekCount||0)+" week"+((result.weekCount||0)===1?"":"s")+" synced","sync-good");
+    if(!silent)alert("The current Workout Builder board is live. Test the separate client portal with the shared client PIN.");return true;
+  }catch(err){var message=err&&err.message?err.message:"Client publishing unavailable.";setLocalBoardStatus("Client sync paused — "+message,"sync-warn");if(!silent)alert(message);return false;}
+}
+async function saveTeamAccess(){
+  try{
+    var list=collectTeamAccounts(true);if(!list.length)throw new Error("Add at least one active Admin staff account.");
+    var secret=getClientPublishSecret();if(!secret)secret=requestClientPublishSecret();if(!secret)throw new Error("Saving Team Access needs the Netlify publish secret.");
+    el.teamAccessStatus.textContent="Saving team access…";
+    var response=await fetch("/.netlify/functions/client-portal",{method:"POST",headers:{"Content-Type":"application/json","X-Admin-Publish-Secret":secret},body:JSON.stringify({action:"save-staff",staffAccounts:list})});
+    var result=await response.json();if(!response.ok||!result.ok)throw new Error(result.error||"Team Access did not save.");
+    setTeamAccounts(result.staffAccounts||list.map(function(a){return {id:a.id,name:a.name,loginId:a.loginId,role:a.role,active:a.active,pin:""};}));
+    el.teamAccessStatus.textContent="Team Access saved securely. Staff can now sign in from their own devices.";renderTeamAccess();
+  }catch(err){el.teamAccessStatus.textContent=err&&err.message?err.message:"Team Access could not be saved.";}
 }
 function resetBoard(){
   if(!window.confirm("Restore the included starter board? Your current Local Board will be retained in Previous Saves.")) return;
@@ -2388,14 +2428,14 @@ document.addEventListener("click",function(e){
   if(e.target===el.attendanceModal)closeAttendanceModal();
   if(e.target===el.reviewModal)closeReviewModal();
   if(e.target===el.exportModal)closeExportModal();
-  if(e.target===el.clientAccountModal)closeClientAccounts();
+  if(e.target===el.teamAccessModal)closeTeamAccess();
 });
 document.addEventListener("keydown",function(e){
   var key=e.key.toLowerCase();
   if(el.admin.classList.contains("open")&&key!=="escape")return;
   if(key==="arrowright")nextCircuit(); if(key==="arrowleft")prevCircuit(); if(key==="arrowdown")nextClass(); if(key==="arrowup")prevClass();
   if(key==="f")toggleFullscreen(); if(key===" "){e.preventDefault();toggleCountdown();} if(key==="0")resetCountdown(); if(key==="a")toggleAuto(); if(key==="o")toggleOneWorkout(); if(key==="w")openWeeklyView(); if(key==="c")openCalendarView(); if(key==="g")toggleMultiView(); if(key==="z")changeTileZoom(-10); if(key==="x")changeTileZoom(10); if(key==="e")openAdmin(); if(key==="m")toggleMenu();
-  if(key==="escape"){closeAdmin();closeMenu();closeWeeklyView();closeCalendarView();closeCalendarEditor();closeModeEditor();closeAttendanceModal();closeReviewModal();closeExportModal();closeClientAccounts();}
+  if(key==="escape"){closeAdmin();closeMenu();closeWeeklyView();closeCalendarView();closeCalendarEditor();closeModeEditor();closeAttendanceModal();closeReviewModal();closeExportModal();closeTeamAccess();}
 });
 
 applyDefaultDisplay();
@@ -2405,7 +2445,7 @@ setInterval(tick,1000);
 if(boardRecord.isPersistent){setLocalBoardStatus("Loaded", "sync-good");}else{setLocalBoardStatus("Starter Board ready — build and save locally", "sync-warn");}
 </script>
 
-<div class="client-account-modal" id="clientAccountModal" aria-hidden="true"><div class="client-account-card"><div class="client-account-head"><div><div class="client-account-title">Client Accounts</div><div class="client-account-sub">Create a client PIN and choose the exact assigned week and workout. Client access stays on the separate /client route and never exposes this admin dashboard, Local Board, or other client records.</div></div><button type="button" class="modal-close" onclick="closeClientAccounts()">Close</button></div><div class="client-account-grid" id="clientAccountRows"></div><div class="client-account-tools"><div class="client-account-note">Changes save locally first. <b>Save & Publish</b> securely syncs account assignments and the latest Workout Builder board to Netlify Blobs. Client devices refresh automatically.</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="modal-btn" onclick="addClientAccount()">+ Add Client</button><button type="button" class="modal-btn" onclick="saveClientAccounts(true)">Save & Publish</button></div></div><div class="client-account-status" id="clientAccountStatus"></div></div></div>
+
 
 </body>
 </html>

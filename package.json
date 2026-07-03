@@ -1,8 +1,8 @@
 {
   "name": "tifton-fitness-workout-dashboard",
-  "version": "26.0.0",
+  "version": "27.0.0",
   "private": true,
-  "description": "Tifton Fitness admin workout dashboard with separate client PIN portal and Netlify Blobs sync.",
+  "description": "Tifton Fitness staff dashboard with separate universal client portal, staff PIN access, and Netlify Blobs sync.",
   "engines": {
     "node": ">=20 <23"
   },
