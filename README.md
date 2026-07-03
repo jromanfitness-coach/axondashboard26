@@ -1,84 +1,50 @@
-# Tifton Fitness Workout Dashboard v27 — Staff + Universal Client Portal
+# Tifton Fitness Workout Dashboard v28 — Blobs Runtime Fix
 
-## Separate login paths
+## What this update fixes
 
-### Staff Workout Dashboard — `/`
-The root URL is the staff workspace for the TV dashboard, Workout Builder, program calendar, Local Board, live publishing, and Team Access.
+The prior client portal code hid the underlying Netlify Blobs connection error behind a generic “temporarily unavailable” message. This release adds a verified storage health endpoint and supports two connection modes:
 
-Initial staff login (configured through Netlify environment variables):
+1. **Automatic Netlify Blobs context** — Netlify normally provides this automatically to deployed Functions.
+2. **Explicit service fallback** — for sites where the automatic Function context is missing, set the two Blobs service variables below.
 
-- Login ID: `Admin1999`
-- PIN: `jaxroman`
+## Required Function variables
 
-After the initial login, an Admin can open **Menu → Team Access** to add individual Admin, Manager, and Coach login IDs/PINs. PINs are hashed server-side before they are saved in Netlify Blobs.
-
-### Universal Client Training Portal — `/client`
-The client route is separate and view-only. For temporary testing, everyone uses one shared PIN:
-
-- Client portal PIN: `axon26`
-
-The client portal receives the latest *published* Workout Builder board with all weeks, workouts, circuits, reps, and coach notes. It auto-refreshes every 20 seconds.
-
-## Required Netlify environment variables
-
-Create these in **Netlify → Project configuration → Environment variables**. Scope them to **Functions** and **Production**, then redeploy.
+These should be configured in Netlify under **Project configuration → Environment variables** with the **Functions** scope and **Production** context.
 
 ```text
-ADMIN_PUBLISH_SECRET=use-a-long-random-secret
+ADMIN_PUBLISH_SECRET=your-long-private-publish-secret
 INITIAL_ADMIN_LOGIN_ID=Admin1999
 INITIAL_ADMIN_PIN=jaxroman
 INITIAL_ADMIN_NAME=Jordan Roman
 CLIENT_PORTAL_PIN=axon26
 ```
 
-`ADMIN_PUBLISH_SECRET` authorizes live client-board publishing and Team Access changes. Do not reuse it as a staff or client PIN.
-
-## Publishing workflow
-
-1. Sign into `/` with the initial Admin login ID and PIN.
-2. Build, save, or import workouts in the Local Board.
-3. Open **Menu → Publish Client Workouts**.
-4. Enter `ADMIN_PUBLISH_SECRET` when prompted. The secret stays only for the current browser session.
-5. Visit `/client` and use `axon26` to verify the live board.
-
-Once the publish secret is stored for the session, routine Builder saves/imports queue a background live-sync attempt. Manual publish remains available as a confirmation step.
-
-## Staff roles
-
-- **Admin:** dashboard, Builder, publishing, and Team Access.
-- **Manager:** dashboard, Builder, and publishing.
-- **Coach:** dashboard and Builder. The live client publishing / Team Access controls are hidden.
-
-The server-side publish secret remains required for any live write to Netlify Blobs.
-
-## GitHub + Netlify deployment
-
-Use this package as a full replacement at the **root** of the `main` branch. Do not nest it inside a parent folder.
+## Blobs fallback variables — add these for this site
 
 ```text
-index.html
-client.html
-netlify.toml
-_redirects
-package.json
-package-lock.json
-.npmrc
-netlify/
-scripts/
+BLOBS_SITE_ID=your-Netlify-Project-ID
+BLOBS_ACCESS_TOKEN=your-Netlify-personal-access-token
 ```
 
-Netlify build settings:
+- `BLOBS_SITE_ID`: Netlify → Project configuration → General → Project information → Project ID.
+- `BLOBS_ACCESS_TOKEN`: create a dedicated Netlify Personal Access Token for this application, then keep it as a **Functions-only secret**. Never put it in GitHub or the browser.
 
-```text
-Production branch: main
-Base directory: blank
-Build command: blank
-Publish directory: blank
-Functions directory: blank
-```
+The Function uses this pair only when both values exist. It otherwise uses Netlify’s automatic Blobs credentials.
 
-`netlify.toml` runs the build and bundles the Netlify Function. The included `package.json` installs `@netlify/blobs` so GitHub deploys can package the function.
+## Deployment
 
-## Local Board safety
+Replace the **root contents** of the GitHub `main` branch with this package. The repository root must contain `index.html`, `client.html`, `package.json`, `netlify.toml`, and the `netlify/` folder.
 
-The Workout Builder preserves the current browser’s Local Board under the same storage key as the prior dashboard builds. This upgrade does not intentionally overwrite it. Export a TXT backup before a major code replacement as a recovery copy.
+After pushing:
+
+1. In Netlify, choose **Deploys → Trigger deploy → Clear cache and deploy site**.
+2. Confirm the deploy is published.
+3. Open `https://YOUR-SITE/.netlify/functions/client-portal`.
+   - A working result returns JSON with `"storage":"connected"`.
+4. Open `/`, sign in as Admin, and use **Publish Client Workouts** once.
+5. Open `/client` and use the shared PIN `axon26`.
+
+## Login paths
+
+- Staff dashboard: `/`
+- Shared client workout portal: `/client`
