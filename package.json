@@ -1,0 +1,16 @@
+{
+  "name": "tifton-fitness-workout-dashboard",
+  "version": "25.0.0",
+  "private": true,
+  "description": "Tifton Fitness Workout Dashboard with Netlify Blobs client portal sync.",
+  "engines": {
+    "node": ">=20 <23"
+  },
+  "scripts": {
+    "verify": "node scripts/verify-netlify-build.cjs",
+    "build": "npm install --omit=dev --no-audit --no-fund && npm run verify"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^10.7.9"
+  }
+}
