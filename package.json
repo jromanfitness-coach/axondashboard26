@@ -1,14 +1,14 @@
 {
   "name": "tifton-fitness-workout-dashboard",
-  "version": "27.0.0",
+  "version": "29.0.0",
   "private": true,
-  "description": "Tifton Fitness staff dashboard with separate universal client portal, staff PIN access, and Netlify Blobs sync.",
+  "description": "Tifton Fitness staff dashboard with separate universal client portal and Netlify Blobs sync using automatic Function credentials.",
   "engines": {
     "node": ">=20 <23"
   },
   "scripts": {
     "verify": "node scripts/verify-netlify-build.cjs",
-    "build": "npm install --omit=dev --no-audit --no-fund && npm run verify"
+    "build": "npm ci --omit=dev --no-audit --no-fund && npm run verify"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9"

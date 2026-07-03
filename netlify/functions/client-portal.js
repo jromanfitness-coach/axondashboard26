@@ -29,19 +29,15 @@ function pinHash(pin, salt) {
 }
 
 /**
- * Netlify normally injects Blobs credentials automatically into a Function.
- * The explicit BLOBS_SITE_ID/BLOBS_ACCESS_TOKEN pair is an optional production
- * fallback for sites where that context is not present at runtime.
+ * Site-wide Netlify Blobs store.
+ *
+ * In a deployed Netlify Function, the platform supplies the site ID and a
+ * short-lived Blob access token automatically. Do not override either with a
+ * personal token or a manually copied site ID: a stale or mismatched override
+ * produces a 401 even when the Function itself is healthy.
  */
 function getPortalStore() {
-  const siteID = clean(process.env.BLOBS_SITE_ID || '', 180);
-  const token = clean(process.env.BLOBS_ACCESS_TOKEN || '', 700);
-  const options = { name: STORE_NAME, consistency: 'strong' };
-  if (siteID && token) {
-    options.siteID = siteID;
-    options.token = token;
-  }
-  return getStore(options);
+  return getStore({ name: STORE_NAME, consistency: 'strong' });
 }
 
 function publicStaffAccount(account) {
@@ -153,16 +149,30 @@ async function readBody(event) {
 function safeStorageError(error) {
   const name = String(error?.name || 'StorageError');
   const message = String(error?.message || 'Unable to connect to live storage.');
+  const status = Number(error?.status || error?.statusCode || 0);
+
   if (name === 'MissingBlobsEnvironmentError' || /not been configured to use Netlify Blobs/i.test(message)) {
     return {
       statusCode: 503,
       body: {
         ok: false,
         code: 'BLOBS_CONTEXT_MISSING',
-        error: 'Live storage needs the optional Blobs service credentials for this Netlify site. Add BLOBS_SITE_ID and BLOBS_ACCESS_TOKEN as Functions variables, redeploy, then publish the board once.'
+        error: 'Netlify did not provide this Function with its automatic Blobs context. Confirm this is a deployed Netlify Function, then redeploy the site.'
       }
     };
   }
+
+  if (status === 401 || /401 status code|unauthorized/i.test(message)) {
+    return {
+      statusCode: 503,
+      body: {
+        ok: false,
+        code: 'BLOBS_AUTH_FAILED',
+        error: 'Netlify Blobs rejected the Function credentials. This build uses Netlify’s automatic Function credentials only; remove any legacy BLOBS_SITE_ID and BLOBS_ACCESS_TOKEN variables, redeploy, and try again.'
+      }
+    };
+  }
+
   return {
     statusCode: 503,
     body: {
