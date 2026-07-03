@@ -1,8 +1,8 @@
 {
   "name": "tifton-fitness-workout-dashboard",
-  "version": "30.0.0",
+  "version": "31.0.0",
   "private": true,
-  "description": "Axon workout dashboard with resilient staff/client login and optional Netlify Blobs live sync.",
+  "description": "Axon workout dashboard with server-side staff/client PIN login and optional Netlify Blobs sync.",
   "engines": {
     "node": ">=20 <23"
   },

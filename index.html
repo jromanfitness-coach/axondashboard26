@@ -607,7 +607,7 @@ h1{letter-spacing:-.055em}
       <section class="staff-login-form">
         <div class="login-kicker" style="margin-top:0">Staff Access</div>
         <div class="login-title">Sign In</div>
-        <label>Staff login ID<input id="loginUser" autocomplete="username" placeholder="Example: Admin1999" /></label>
+        <label>Staff login ID<input id="loginUser" autocomplete="username" placeholder="Enter staff login ID" /></label>
         <label>Personal PIN<input id="loginPass" autocomplete="current-password" type="password" inputmode="text" placeholder="Enter your staff PIN" /></label>
         <button type="submit" class="menu-toggle staff-login-submit">Open Dashboard</button>
         <div class="login-error" id="loginError"></div>
@@ -1029,7 +1029,7 @@ h1{letter-spacing:-.055em}
 <input id="boardImportFile" type="file" accept=".txt,text/plain" hidden onchange="uploadFile(event)" />
 
 
-<div class="team-access-modal" id="teamAccessModal" aria-hidden="true"><div class="team-access-card"><div class="team-access-head"><div><div class="team-access-kicker">Staff workspace</div><div class="team-access-title">Team Access</div><div class="team-access-sub">Create individual staff login IDs and PINs for admins, managers, and coaches. This resilient access screen keeps staff testing credentials on the dashboard device. The shared client portal stays completely separate and uses a single training PIN.</div></div><button type="button" class="modal-close" onclick="closeTeamAccess()">Close</button></div><section class="team-directory"><div><h3>Staff directory</h3><p>Manage dashboard roles for this browser. Admins manage access; Managers can publish; Coaches can build and run programming. The bootstrap Admin login remains available as a recovery path.</p></div><div class="team-summary"><div class="team-stat"><strong id="teamCountTotal">0</strong><span>Staff</span></div><div class="team-stat"><strong id="teamCountAdmins">0</strong><span>Admins</span></div><div class="team-stat"><strong id="teamCountSupport">0</strong><span>Managers + Coaches</span></div></div></section><div class="team-toolbar"><input id="teamSearch" class="team-search" placeholder="Search staff name, role, or login ID" oninput="filterTeamAccounts()"><div class="team-toolbar-actions"><button type="button" class="team-outline" onclick="openClientPortal()">Open Client Portal ↗</button><button type="button" class="team-add" onclick="addTeamAccount()">+ Staff</button></div></div><div class="team-grid" id="teamAccessRows"></div><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px"><div class="team-access-status" id="teamAccessStatus"></div><button type="button" class="team-add" onclick="saveTeamAccess()">Save Team Access</button></div></div></div>
+<div class="team-access-modal" id="teamAccessModal" aria-hidden="true"><div class="team-access-card"><div class="team-access-head"><div><div class="team-access-kicker">Staff workspace</div><div class="team-access-title">Team Access</div><div class="team-access-sub">Create individual staff login IDs and PINs for admins, managers, and coaches. This resilient access screen keeps staff testing credentials on the dashboard device. The shared client portal stays completely separate and uses a single training PIN.</div></div><button type="button" class="modal-close" onclick="closeTeamAccess()">Close</button></div><section class="team-directory"><div><h3>Staff directory</h3><p>Manage dashboard roles for this browser. Admins manage access; Managers can publish; Coaches can build and run programming. The server-managed Admin login remains available as a recovery path.</p></div><div class="team-summary"><div class="team-stat"><strong id="teamCountTotal">0</strong><span>Staff</span></div><div class="team-stat"><strong id="teamCountAdmins">0</strong><span>Admins</span></div><div class="team-stat"><strong id="teamCountSupport">0</strong><span>Managers + Coaches</span></div></div></section><div class="team-toolbar"><input id="teamSearch" class="team-search" placeholder="Search staff name, role, or login ID" oninput="filterTeamAccounts()"><div class="team-toolbar-actions"><button type="button" class="team-outline" onclick="openClientPortal()">Open Client Portal ↗</button><button type="button" class="team-add" onclick="addTeamAccount()">+ Staff</button></div></div><div class="team-grid" id="teamAccessRows"></div><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px"><div class="team-access-status" id="teamAccessStatus"></div><button type="button" class="team-add" onclick="saveTeamAccess()">Save Team Access</button></div></div></div>
 
 <script>
 "use strict";
@@ -1039,14 +1039,14 @@ h1{letter-spacing:-.055em}
 
   Resilient access design:
   - The staff bootstrap login is available even when the live storage service is down.
-  - The shared client PIN is verified by the client portal before it attempts a live-board read.
+  - The client portal PIN is verified by the client portal before it attempts a live-board read.
   - Netlify Blobs is used only for live workout publishing, never as a prerequisite for either login.
 */
 
-var STAFF_SESSION_KEY = "tfDashboardStaffSessionV30";
-var TEAM_ACCOUNTS_KEY = "tfDashboardTeamAccountsV30";
+var STAFF_SESSION_KEY = "tfDashboardStaffSessionV31";
+var TEAM_ACCOUNTS_KEY = "tfDashboardTeamAccountsV31";
 var currentStaff = null;
-var BOOTSTRAP_STAFF = {id:"bootstrap-admin",name:"Jordan Roman",loginId:"Admin1999",role:"Admin",active:true,pin:"jaxroman"};
+var AXON_API = "/.netlify/functions/axon-api";
 
 var SAMPLE_TEXT = `brand: Tifton Fitness Training Display
 heading: Weekly Class Board
@@ -1218,8 +1218,8 @@ ids.forEach(function(id){ el[id] = document.getElementById(id); });
 function escapeHtml(value){return String(value==null?"":value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
 function escapeAttr(value){return escapeHtml(value);}
 function initials(name){return String(name||"Staff").split(/\s+/).filter(Boolean).slice(0,2).map(function(x){return x.charAt(0).toUpperCase();}).join("")||"TF";}
-function storeStaffSession(profile){
-  currentStaff={id:profile.id||"",name:profile.name||"Staff",loginId:profile.loginId||"",role:profile.role||"Coach",active:profile.active!==false};
+function storeStaffSession(profile,token){
+  currentStaff={id:profile.id||"",name:profile.name||"Staff",loginId:profile.loginId||"",role:profile.role||"Coach",active:profile.active!==false,sessionToken:token||""};
   try{sessionStorage.setItem(STAFF_SESSION_KEY,JSON.stringify(currentStaff));}catch(err){}
 }
 function applyStaffAccess(){
@@ -1231,7 +1231,6 @@ function applyStaffAccess(){
 }
 function normalizedLogin(value){return String(value||"").trim().toLowerCase();}
 function localStaffMatch(loginId,pin){
-  if(normalizedLogin(loginId)===normalizedLogin(BOOTSTRAP_STAFF.loginId) && String(pin)===BOOTSTRAP_STAFF.pin)return BOOTSTRAP_STAFF;
   var accounts=getTeamAccounts();
   for(var i=0;i<accounts.length;i++){
     var account=accounts[i]||{};
@@ -1239,22 +1238,30 @@ function localStaffMatch(loginId,pin){
   }
   return null;
 }
-function login(e){
+async function requestStaffLogin(loginId,pin){
+  var response=await fetch(AXON_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"login-staff",loginId:loginId,pin:pin}),cache:"no-store"});
+  var result=null;try{result=await response.json();}catch(err){}
+  if(!response.ok||!result||!result.ok)throw new Error((result&&result.error)||"Staff sign-in is temporarily unavailable.");
+  return result;
+}
+async function login(e){
   e.preventDefault();
   var loginId=(el.loginUser.value||"").trim(), pin=(el.loginPass.value||"").trim();
   if(!loginId||!pin){el.loginError.textContent="Enter your staff login ID and PIN.";return;}
-  var profile=localStaffMatch(loginId,pin);
-  if(!profile){el.loginError.textContent="That staff login ID or PIN is not recognized.";return;}
-  storeStaffSession(profile);
-  el.loginError.textContent="";
-  el.loginGate.style.display="none";
-  applyStaffAccess();
+  el.loginError.textContent="Signing in…";
+  try{
+    var result=await requestStaffLogin(loginId,pin);
+    storeStaffSession(result.profile,result.token);
+    el.loginError.textContent="";el.loginGate.style.display="none";applyStaffAccess();
+  }catch(err){
+    // Local Team Access remains an offline convenience only; the initial server-managed Admin never relies on it.
+    var profile=localStaffMatch(loginId,pin);
+    if(profile){storeStaffSession(profile,"");el.loginError.textContent="";el.loginGate.style.display="none";applyStaffAccess();return;}
+    el.loginError.textContent=(err&&err.message)||"That staff login ID or PIN is not recognized.";
+  }
 }
-function logout(){
-  try{sessionStorage.removeItem(STAFF_SESSION_KEY);}catch(err){}
-  location.reload();
-}
-try{var savedStaff=JSON.parse(sessionStorage.getItem(STAFF_SESSION_KEY)||"null");if(savedStaff&&savedStaff.name){currentStaff=savedStaff;el.loginGate.style.display="none";setTimeout(applyStaffAccess,0);}}catch(err){}
+function logout(){try{sessionStorage.removeItem(STAFF_SESSION_KEY);}catch(err){}location.reload();}
+try{var savedStaff=JSON.parse(sessionStorage.getItem(STAFF_SESSION_KEY)||"null");if(savedStaff&&savedStaff.name&&savedStaff.sessionToken){currentStaff=savedStaff;el.loginGate.style.display="none";setTimeout(applyStaffAccess,0);}}catch(err){}
 
 function readJSON(key, fallback){
   try { return JSON.parse(localStorage.getItem(key) || "null") || fallback; } catch(e) { return fallback; }
@@ -2311,7 +2318,7 @@ function saveBuilderBoard(silent){
 
 
 
-function defaultTeamAccounts(){return [Object.assign({},BOOTSTRAP_STAFF)];}
+function defaultTeamAccounts(){return [];}
 function getTeamAccounts(){
   try{var raw=localStorage.getItem(TEAM_ACCOUNTS_KEY);var list=raw?JSON.parse(raw):null;return Array.isArray(list)&&list.length?list:defaultTeamAccounts();}
   catch(err){return defaultTeamAccounts();}
@@ -2361,36 +2368,46 @@ function addTeamAccount(){var list=collectTeamAccounts(false);list.push({id:"",n
 function removeTeamAccount(index){var list=collectTeamAccounts(false);list.splice(index,1);setTeamAccounts(list);renderTeamAccess();}
 function filterTeamAccounts(){renderTeamAccess();}
 function openClientPortal(){window.open("/client", "_blank", "noopener");}
-var CLIENT_PUBLISH_SECRET_KEY="tf_client_publish_secret_v1";
+var CLIENT_PUBLISH_SECRET_KEY="tf_client_publish_secret_v2";
 function getClientPublishSecret(){try{return sessionStorage.getItem(CLIENT_PUBLISH_SECRET_KEY)||"";}catch(err){return "";}}
 function setClientPublishSecret(value){try{sessionStorage.setItem(CLIENT_PUBLISH_SECRET_KEY,value||"");}catch(err){}}
-function requestClientPublishSecret(){
-  var existing=getClientPublishSecret();
-  var value=window.prompt("Enter the Netlify ADMIN_PUBLISH_SECRET to securely publish the live client workout board.",existing);
-  if(value===null)return "";value=value.trim();if(value)setClientPublishSecret(value);return value;
+function requestClientPublishSecret(){var existing=getClientPublishSecret();var value=window.prompt("Enter the Netlify publish secret to securely publish the live client workout board.",existing);if(value===null)return "";value=value.trim();if(value)setClientPublishSecret(value);return value;}
+async function callAxonApi(action,payload,secret){
+  var headers={"Content-Type":"application/json"};if(secret)headers["X-Admin-Publish-Secret"]=secret;
+  var response=await fetch(AXON_API,{method:"POST",headers:headers,body:JSON.stringify(Object.assign({action:action,token:(currentStaff&&currentStaff.sessionToken)||""},payload||{})),cache:"no-store"});
+  var result=null;try{result=await response.json();}catch(err){}
+  if(!response.ok||!result||!result.ok)throw new Error((result&&result.error)||"The live server did not complete this request.");
+  return result;
 }
 async function publishClientWorkouts(silent){
   if(!silent)closeMenu();
   try{
     if(currentStaff&&currentStaff.role==="Coach")throw new Error("Coaches can build workouts, but a Manager or Admin publishes the live client board.");
-    var secret=getClientPublishSecret();if(!secret)secret=requestClientPublishSecret();if(!secret)throw new Error("Live publishing needs the Netlify publish secret.");
-    var response=await fetch("/.netlify/functions/axon-live",{method:"POST",headers:{"Content-Type":"application/json","X-Admin-Publish-Secret":secret},body:JSON.stringify({action:"publish",board:data,publishedAt:new Date().toISOString()})});
-    var result=await response.json();if(!response.ok||!result.ok)throw new Error(result.error||"Publish did not complete.");
+    if(!currentStaff||!currentStaff.sessionToken)throw new Error("Sign in with the server-managed staff account before publishing.");
+    var secret=getClientPublishSecret();
+    if(!secret){if(silent)return false;secret=requestClientPublishSecret();}
+    if(!secret)throw new Error("Live publishing needs the Netlify publish secret.");
+    var result=await callAxonApi("publish",{board:data,publishedAt:new Date().toISOString()},secret);
     setLocalBoardStatus("Client portal live • "+(result.weekCount||0)+" week"+((result.weekCount||0)===1?"":"s")+" synced","sync-good");
-    if(!silent)alert("The current Workout Builder board is live. Test the separate client portal with the shared client PIN.");return true;
+    if(!silent)alert("The current Workout Builder board is live. Test the separate client portal with the client access PIN.");return true;
   }catch(err){var message=err&&err.message?err.message:"Client publishing unavailable.";setLocalBoardStatus("Client sync paused — "+message,"sync-warn");if(!silent)alert(message);return false;}
+}
+async function syncTeamAccounts(list){
+  if(!currentStaff||currentStaff.role!=="Admin"||!currentStaff.sessionToken)return false;
+  var secret=getClientPublishSecret();if(!secret)secret=requestClientPublishSecret();if(!secret)return false;
+  try{var result=await callAxonApi("save-team",{accounts:list},secret);return !!result.ok;}
+  catch(err){if(el.teamAccessStatus)el.teamAccessStatus.textContent="Team Access saved locally. Live sync paused — "+(err.message||"server unavailable")+".";return false;}
 }
 function saveTeamAccess(){
   try{
-    var list=collectTeamAccounts(true);
-    if(!list.length)throw new Error("Add at least one active Admin staff account.");
+    var list=collectTeamAccounts(true);if(!list.length)throw new Error("Add at least one active Admin staff account.");
     setTeamAccounts(list);
-    el.teamAccessStatus.textContent="Team Access saved on this browser. The bootstrap Admin login remains available on every device.";
+    el.teamAccessStatus.textContent="Team Access saved locally. Syncing server directory…";
+    syncTeamAccounts(list).then(function(ok){if(ok&&el.teamAccessStatus)el.teamAccessStatus.textContent="Team Access saved locally and synchronized securely for staff sign-in.";});
     renderTeamAccess();
-  }catch(err){
-    el.teamAccessStatus.textContent=err&&err.message?err.message:"Team Access could not be saved.";
-  }
+  }catch(err){el.teamAccessStatus.textContent=err&&err.message?err.message:"Team Access could not be saved.";}
 }
+
 
 function resetBoard(){
   if(!window.confirm("Restore the included starter board? Your current Local Board will be retained in Previous Saves.")) return;
