@@ -1,0 +1,3 @@
+# Explicit secondary client portal route. Root (/) remains the admin dashboard.
+/client  /client.html  200!
+/client/ /client.html  200!
