@@ -1,58 +1,64 @@
-# Tifton Fitness Workout Dashboard v25 — GitHub / Netlify Build Fix
+# Tifton Fitness Workout Dashboard v26 — Split Admin & Client Login
 
-This release fixes the Netlify GitHub deploy failure caused by the missing `@netlify/blobs` function dependency.
+## Two deliberately separate entry points
 
-## Important: replace the branch root, do not merge a nested folder
+- **Admin Workout Dashboard:** `/`
+  - Staff-only login.
+  - Username: `Admin1999`
+  - Password: `jaxroman`
+  - This is where the Workout Builder, Local Board, Client Accounts, and publishing controls live.
 
-In the `workoutdash` branch, the files at the repository root must include:
+- **Client Training Portal:** `/client`
+  - Separate PIN-only login.
+  - Clients receive only the assigned workout record returned by the server function.
+  - The client portal never includes the Local Board, Client Accounts editor, admin controls, or other client assignments.
+
+## Netlify + GitHub deployment
+
+Use this as a full replacement at the root of your GitHub repository's `main` branch. The root must contain:
 
 ```text
 index.html
 client.html
-client/
-netlify/
 netlify.toml
+_redirects
 package.json
 .npmrc
+netlify/
 scripts/
 ```
 
-Delete the old `package-lock.json` from prior releases if it exists. This project intentionally does not ship a lockfile because an earlier package contained a non-public registry URL. Netlify will install `@netlify/blobs` from npm during every build.
-
-## Netlify build settings
-
-In Netlify → Project configuration → Build & deploy → Continuous deployment → Build settings:
+Netlify build settings:
 
 ```text
+Production branch: main
 Base directory: blank
-Build command: leave blank (the repository netlify.toml supplies npm run build)
-Publish directory: leave blank (the repository netlify.toml publishes .)
-Functions directory: leave blank (the repository netlify.toml uses netlify/functions)
+Build command: blank
+Publish directory: blank
+Functions directory: blank
 ```
 
-Do not set Base directory to a subfolder. The current `netlify.toml` expects `package.json`, `index.html`, and `netlify/functions/` at the branch root.
+The included `netlify.toml` installs the `@netlify/blobs` dependency and bundles `netlify/functions/client-portal.js`.
 
-## Required environment variable
+## Required Netlify environment variable
 
-In Netlify → Project configuration → Environment variables:
+Create this server-side variable in Netlify under **Project configuration → Environment variables**:
 
 ```text
-ADMIN_PUBLISH_SECRET=your-long-random-secret
+ADMIN_PUBLISH_SECRET=use-a-long-random-secret
 ```
 
-Scope it to Functions and Production. Redeploy after adding or changing it.
+Scope it to **Functions** and **Production**, then redeploy.
 
-## Deploy verification
+## Publishing workflow
 
-A successful deploy log includes:
+1. Sign in to the admin dashboard at `/`.
+2. Build, import, or update workouts in **Local Board**.
+3. Use **Client Accounts** to choose each client's PIN, assigned week, and assigned workout.
+4. Choose **Save & Publish**, or use **Publish Client Workouts** from Menu.
+5. Enter the `ADMIN_PUBLISH_SECRET` when prompted. It is retained only for the active admin browser session.
+6. Clients sign in at `/client` with their personal PIN. Their portal polls the live record every 20 seconds.
 
-```text
-[verify] Static files, Function source, and @netlify/blobs dependency are ready for Netlify bundling.
-Packaging Functions from netlify/functions directory:
- - client-portal.js
-```
+## Existing admin workouts
 
-After a successful deploy, test:
-
-- `/` for the admin dashboard
-- `/client` for the client workout portal
+The Builder remains browser-local on the same site/device, using the existing Local Board record. Before a major deployment update, export a TXT Backup. Deploying this code update does not intentionally overwrite your Local Board.
